@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PyScript</title>
+    <script type="module" src="https://pyscript.net/releases/2025.5.1/core.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.5.1/core.css" />
+    <style>
+        :root {
+            --spinner-size: 80px;
+            --stroke-width: 8;
+            --main-color: #3498db;
+            --bg-color: #ffffff;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            background: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: sans-serif;
+        }
+
+        .spinner {
+            width: var(--spinner-size);
+            height: var(--spinner-size);
+            animation: spin 1s linear infinite;
+            transform-origin: center;
+            margin: 0 auto;
+        }
+
+        .loading-text {
+            margin-top: 16px;
+            font-size: 1.2em;
+            color: var(--bg-color);
+            max-width: 90vw;
+            filter: invert(100%) grayscale(100%) contrast(100);
+            text-align: center;
+        }
+
+        #pygame {
+            position: relative;
+            margin: 10px;
+            z-index: 0;
+        }
+
+        #canvas {
+            position: absolute;
+            z-index: 1;
+        }
+
+        #text_canvas {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        <svg class="spinner" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="var(--main-color)" stop-opacity="1" />
+                    <stop offset="100%" stop-color="var(--main-color)" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="url(#grad)" stroke-width="var(--stroke-width)" stroke-linecap="round" />
+        </svg>
+        <div class="loading-text">
+            Loading PyScript...
+        </div>
+    </div>
+    <div id="pygame">
+        <canvas id="canvas"></canvas>
+        <canvas id="text_canvas"></canvas>
+    </div>
+    <script type="py-game" src="main.py" config="config.toml"></script>
+</body>
+
+</html>
