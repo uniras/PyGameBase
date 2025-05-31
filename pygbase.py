@@ -4,7 +4,14 @@ import asyncio
 
 
 class PyGameBase:
-    def __init__(self, title="PyGameBase", width=800, height=600, fps=60, background_color=(255, 255, 255)):
+    def __init__(
+        self,
+        title="PyGameBase",
+        width=800,
+        height=600,
+        fps=60,
+        background_color=(255, 255, 255),
+    ):
         self.width = width
         self.height = height
         self.title = title
@@ -56,7 +63,9 @@ class PyGameBase:
             ctx = self.text_canvas_context
             ctx.clearRect(0, 0, self.width, self.height)
 
-    def render_text(self, text, x, y, color=(0, 0, 0), font_size=24, bold=False, italic=False):
+    def render_text(
+        self, text, x, y, color=(0, 0, 0), font_size=24, bold=False, italic=False
+    ):
         if sys.platform == "emscripten":
             ctx = self.text_canvas_context
             boldtext = "bold " if bold else ""
@@ -90,8 +99,9 @@ class PyGameBase:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.title)
 
-        if sys.platform == 'emscripten':
+        if sys.platform == "emscripten":
             import js
+
             text_canvas = js.document.getElementById("text_canvas")
             text_canvas.width = self.width
             text_canvas.height = self.height
@@ -126,7 +136,7 @@ class PyGameBase:
         sys.exit()
 
     def run(self):
-        if sys.platform == 'emscripten':
+        if sys.platform == "emscripten":
             asyncio.create_task(self.__start())
         else:
             asyncio.run(self.__start())
